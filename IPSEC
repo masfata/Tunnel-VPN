@@ -1,0 +1,16 @@
+#Server
+
+/ip ipsec peer
+add address=192.168.1.1/32 name=user send-initial-contact=no
+/ip ipsec profile
+set [ find default=yes ] enc-algorithm=aes-128,3des,des hash-algorithm=sha256
+add name=myprofile-ipsec
+/ip ipsec identity
+add auth-method=pre-shared-key-xauth peer=user secret=myprofile-ipsec xauth-login=user xauth-password=password123
+
+#Client
+
+/ip ipsec peer
+add address=192.168.1.1/32 name=user send-initial-contact=no
+/ip ipsec identity
+add auth-method=pre-shared-key-xauth peer=client secret=myprofile-ipsec xauth-login=user xauth-password=password123
